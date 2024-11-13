@@ -89,19 +89,6 @@ exports.getNewCarsById = async (db, carId)=>{
         throw new Error('Error retrieving new car by id: ', error.message);
     }
 };
-
-// exports.getCarById = async (db, id)=>{
-//     try{
-//         const collection = await db.collection('cars');
-//         const result = await collection.findOne({_id: new MongoDB.ObjectId(id)});
-//         return result; 
-//     } catch(error){
-//         console.log(error.message);
-//         throw new Error('Error retrieving car by Id', error.message);
-        
-//     };
-// };
-
 const { ObjectId } = require('mongodb');
 
 exports.getCarById = async (db, id) => {

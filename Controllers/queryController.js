@@ -47,7 +47,6 @@ exports.getQueryById = async (req, res, next) =>{
         const queryId = req.params.id;
         const result = await queryModle.getQuerryById(db, queryId);
         res.status(200).json(result);
-        console.log(result);
     } catch(error){
         console.error('Error while fetching Query', error);
         res.status(500).json({error: 'Server Error'});
@@ -97,7 +96,6 @@ exports.getConById = async (req, res, next) =>{
         const conId = req.params.id;
         const result = await queryModle.getContactById(db, conId);
         res.status(200).json(result);
-        console.log(result);
     } catch(error){
         console.error('Error while fetching Messages', error);
         res.status(500).json({error: 'Server Error'});

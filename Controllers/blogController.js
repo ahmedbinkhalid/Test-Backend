@@ -21,7 +21,6 @@ exports.submitBlog = async (req, res, next)=>{
             // author: bloggerId,
             images: images,
         });
-        console.log(req.body);
         res.status(200).json({message:'Blog submitted', blogId: newBlog.insteredId})
          // Approve the blog
          await blogModel.approveBlog(db, newBlog.insertedId); // Use the newly created blog ID
@@ -58,7 +57,6 @@ exports.submitBlog = async (req, res, next)=>{
                     console.error('Error sending email:', error);
                     return res.status(500).json({ error: 'Error sending email' });
                 }
-                console.log('Email sent:', info.response);
             });
         }
 

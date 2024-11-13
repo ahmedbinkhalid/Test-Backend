@@ -3,14 +3,21 @@ const { ObjectId } = require('mongodb');
 const path = require('path');
 const fs = require('fs');
 const subsController = require('./subsController');
+const cloudinary = require('../util/cloudinary');
 
 exports.addCar = async (req, res, next) => {
     const OwnerId = req.user.id;
-    console.log("Request Body:", req.body);
+    console.log(req.body);
+    console.log(req.files); 
 
     try {
         const db = req.app.locals.db;
-        const base64Images = req.body.images; // this should be your base64 array
+        // Ensure that req.body.images exists and is an array
+        if (!req.body.images || !Array.isArray(req.body.images)) {
+            return res.status(400).json({ message: "No images provided or invalid format." });
+        }
+
+        const base64Images = req.body.images;
         const images = [];
 
         for (let i = 0; i < base64Images.length; i++) {
@@ -21,14 +28,16 @@ exports.addCar = async (req, res, next) => {
                 return res.status(400).json({ message: "Invalid image format." });
             }
 
-            const imageType = matches[1];
             const imageData = base64Data.replace(/^data:image\/\w+;base64,/, '');
-            const buffer = Buffer.from(imageData, 'base64');
-            const filename = `image-${Date.now()}-${i}.${imageType}`;
-            const filepath = path.join(__dirname, '../public/uploads', filename);
 
-            fs.writeFileSync(filepath, buffer);
-            images.push(filename);
+            // Upload image to Cloudinary
+            const uploadResponse = await cloudinary.uploader.upload(`data:image/jpeg;base64,${imageData}`, {
+                folder: 'car_images', // Optional: Set a folder name on Cloudinary
+                public_id: `car_image_${Date.now()}_${i}`, // Optional: Set custom public ID
+                resource_type: 'image',
+            });
+
+            images.push(uploadResponse.secure_url); // Push the image URL
         }
 
         const carData = {
@@ -60,7 +69,6 @@ exports.addCar = async (req, res, next) => {
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({ message: error.message });
-        console.log("Request Body:", req.body);
     }
 };
 
@@ -133,10 +141,14 @@ exports.getUserCars = async (req, res, next)=>{
     }
 }
 exports.newCars = async (req, res, next)=>{
-    console.log(req.body);
     try{
         const db = req. app.locals.db;
-        const base64Images = req.body.images; // this should be your base64 array
+        // Ensure that req.body.images exists and is an array
+        if (!req.body.images || !Array.isArray(req.body.images)) {
+            return res.status(400).json({ message: "No images provided or invalid format." });
+        }
+
+        const base64Images = req.body.images;
         const images = [];
 
         for (let i = 0; i < base64Images.length; i++) {
@@ -147,14 +159,16 @@ exports.newCars = async (req, res, next)=>{
                 return res.status(400).json({ message: "Invalid image format." });
             }
 
-            const imageType = matches[1];
             const imageData = base64Data.replace(/^data:image\/\w+;base64,/, '');
-            const buffer = Buffer.from(imageData, 'base64');
-            const filename = `image-${Date.now()}-${i}.${imageType}`;
-            const filepath = path.join(__dirname, '../public/uploads', filename);
 
-            fs.writeFileSync(filepath, buffer);
-            images.push(filename);
+            // Upload image to Cloudinary
+            const uploadResponse = await cloudinary.uploader.upload(`data:image/jpeg;base64,${imageData}`, {
+                folder: 'car_images', // Optional: Set a folder name on Cloudinary
+                public_id: `car_image_${Date.now()}_${i}`, // Optional: Set custom public ID
+                resource_type: 'image',
+            });
+
+            images.push(uploadResponse.secure_url); // Push the image URL
         }
         const carData = {
             PhoneNumber : '03409889631',
@@ -176,12 +190,9 @@ exports.newCars = async (req, res, next)=>{
         
         res.status(200).json({message: 'Car added for sale successfuly', carId: result.instertedId});
         await subsController.sendEmailsToSubscribers(db, carData);
-        console.log(carData);
     }catch(error){
         console.error("Error:", error); // Log the error
         res.status(500).json({ message: error.message });
-        console.log("Request Body:", req.body);
-        console.log("Uploaded Files:", req.files);
 };
 };
 
@@ -266,7 +277,6 @@ exports.SearchCars = async (req, res, next)=>{
         res.status(200).json({message: 'Search results', cars: results});
     } catch(error){
         res.status(500).json({ message: error.message });
-        console.log("Search Key:", SearchKey);
     }
 
 };
