@@ -14,7 +14,32 @@ exports.submitBlog = async (req, res, next)=>{
     }
     try{
         const db = req.app.locals.db;
-        const images = req.files.map(file=> file.filename);
+         if (!req.body.images || !Array.isArray(req.body.images)) {
+            return res.status(400).json({ message: "No images provided or invalid format." });
+        }
+
+        const base64Images = req.body.images;
+        const images = [];
+
+        for (let i = 0; i < base64Images.length; i++) {
+            const base64Data = base64Images[i];
+            const matches = base64Data.match(/^data:image\/(\w+);base64,/);
+
+            if (!matches) {
+                return res.status(400).json({ message: "Invalid image format." });
+            }
+
+            const imageData = base64Data.replace(/^data:image\/\w+;base64,/, '');
+
+            // Upload image to Cloudinary
+            const uploadResponse = await cloudinary.uploader.upload(`data:image/jpeg;base64,${imageData}`, {
+                folder: 'car_images', // Optional: Set a folder name on Cloudinary
+                public_id: `car_image_${Date.now()}_${i}`, // Optional: Set custom public ID
+                resource_type: 'image',
+            });
+
+            images.push(uploadResponse.secure_url); // Push the image URL
+        }
         const newBlog = await blogModel.createBlog(db, {
             title,
             content,
