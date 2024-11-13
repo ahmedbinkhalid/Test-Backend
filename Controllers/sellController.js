@@ -7,8 +7,6 @@ const cloudinary = require('../util/cloudinary');
 
 exports.addCar = async (req, res, next) => {
     const OwnerId = req.user.id;
-    console.log(req.body);
-    console.log(req.files); 
 
     try {
         const db = req.app.locals.db;
