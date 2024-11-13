@@ -40,7 +40,7 @@ exports.addCar = async (req, res, next) => {
 
         const carData = {
             owner: OwnerId,
-            phoneNumber: '03404232435',
+            phoneNumber: '03008749966',
             make: req.body.make,
             model: req.body.model,
             year: req.body.year,
@@ -169,7 +169,7 @@ exports.newCars = async (req, res, next)=>{
             images.push(uploadResponse.secure_url); // Push the image URL
         }
         const carData = {
-            PhoneNumber : '03409889631',
+            PhoneNumber : '03008749966',
             make : req.body.make,
             model : req.body.model,
             releasedDate : req.body.releasedDate,
