@@ -4,6 +4,7 @@ const blogModel = require('../Models/blogModel');
 require('dotenv').config();
 const subsModel = require('../Models/subscriptionModel');
 const nodemailer = require('nodemailer');
+const cloudinary = require('../util/cloudinary');
 
 exports.submitBlog = async (req, res, next)=>{
     const {title, content, images} = req.body;
