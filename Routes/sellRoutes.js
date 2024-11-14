@@ -34,7 +34,7 @@ router.get('/bankcars', sellController.getBankCars);
 router.get('/searchcars/:key', sellController.SearchCars);
 
 // User Route to get Ads posted by user for selling car
-router.get('/usercars', verifyToken, isUser, sellController.getUserCars);
+router.get('/usercars', verifyToken, checkAdminOrUserRole, sellController.getUserCars);
 
 // User route to delete car Ad
 router.delete('/deletecar/:id', verifyToken, isUser, sellController.deleteCar);
