@@ -40,7 +40,7 @@ exports.addCar = async (req, res, next) => {
 
         const carData = {
             owner: OwnerId,
-            phoneNumber: '03008749966',
+            PhoneNumber: '03008749966',
             make: req.body.make,
             model: req.body.model,
             year: req.body.year,
