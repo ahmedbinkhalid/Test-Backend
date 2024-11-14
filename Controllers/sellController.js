@@ -82,10 +82,6 @@ exports.updateCar = async (req, res, next)=>{
             return res.status(404).json({ message: 'Car not found' });
         }
 
-        if (car.Owner !== OwnerId) {
-            return res.status(403).json({ message: 'You are not allowed to edit this car' });
-        }
-
         const updatedData = {
             make: req.body.make || car.make,
             model: req.body.model || car.model,
@@ -100,6 +96,7 @@ exports.updateCar = async (req, res, next)=>{
             location: req.body.location || car.location,
             description: req.body.description || car.description,
             sellerInfo: req.body.sellerInfo || car.sellerInfo,
+            status: req.body.status || car.status,
         };
 
         await sellModel.updateCar(db, carId, updatedData);
