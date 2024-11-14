@@ -40,6 +40,6 @@ router.get('/usercars', verifyToken, isUser, sellController.getUserCars);
 router.delete('/deletecar/:id', verifyToken, isUser, sellController.deleteCar);
 
 // User route to update Car Ad
-router.put('/updatecar/:id', verifyToken, isUser, sellController.updateCar);
+router.post('/updatecar/:id', verifyToken, isUser, sellController.updateCar);
 
 module.exports = router;
