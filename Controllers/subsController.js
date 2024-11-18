@@ -54,7 +54,7 @@ exports.sendEmailsToSubscribers = async (db, carData) => {
                         <mj-text font-size="18px" color="#333333"><strong>Model:</strong> ${carData.model}</mj-text>
                         <mj-text font-size="16px" color="#555555"><strong>Description:</strong> ${carData.description}</mj-text>
                         <mj-text font-size="16px" color="#555555">Tip: Hurry up! Check out this car on our website for more details.</mj-text>
-                        <mj-button href="https://yourwebsite.com/cars/${carData.id}" background-color="#346DB7" color="#ffffff">View Car Details</mj-button>
+                        <mj-button href="https://subhanmotors.com.pk/viewDetailedCar/${carData.id}" background-color="#346DB7" color="#ffffff">View Car Details</mj-button>
                     </mj-column>
                 </mj-section>
             </mj-body>
