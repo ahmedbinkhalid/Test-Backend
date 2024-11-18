@@ -35,7 +35,7 @@ exports.getAllCars = async (db) =>{
     };
 };
 
-get cars by owner id (user can see what they have posted)
+// get cars by owner id (user can see what they have posted)
 exports.getCarsByOwnerId = async (db, owner)=>{
     try{
         const collection = db.collection('cars');
