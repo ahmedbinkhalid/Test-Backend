@@ -156,6 +156,7 @@ exports.SearchCars = async (db, key) => {
                 description: car.description || '',
                 location: car.location || '',
                 _id: car._id || '',
+                images: car.images || '',
                 // availableColors: car.availableColors || [],  // Default to empty array
                 availableColors: Array.isArray(car.availableColors)
             ? car.availableColors
