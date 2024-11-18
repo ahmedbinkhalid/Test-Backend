@@ -117,7 +117,7 @@ exports.getCarById = async (db, id) => {
 // get cars by type (Bank released)
 
 exports.getBankCars = async (db)=>{
-    const result = await db.collection('cars').find({status: 'Bank'}).toArray();
+    const result = await db.collection('cars').find({status: 'Imported'}).toArray();
     return result;
 }
 
