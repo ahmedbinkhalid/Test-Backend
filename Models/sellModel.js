@@ -36,13 +36,28 @@ exports.getAllCars = async (db) =>{
 };
 
 // get cars by owner id (user can see what they have posted)
-exports.getCarsByOwnerId = async (db, owner)=>{
-    try{
-        const collection = db.collection('cars');
-        const result = await collection.find({owner: owner}).toArray();
-        return result;
-    } catch (error){
-        throw new Error('Error retrieving cars by owner id: ', error.message);
+// exports.getCarsByOwnerId = async (db, owner)=>{
+//     try{
+//         const collection = db.collection('cars');
+//         const result = await collection.find({owner: owner}).toArray();
+//         return result;
+//     } catch (error){
+//         throw new Error('Error retrieving cars by owner id: ', error.message);
+//     }
+// };
+exports.getCarsByOwnerId = async (db, owner) => {
+    try {
+        const carsCollection = db.collection('cars');
+        const newCarsCollection = db.collection('newCars');
+
+        // Fetch data from both collections
+        const cars = await carsCollection.find({ owner: owner }).toArray();
+        const newCars = await newCarsCollection.find({ owner: owner }).toArray();
+
+        // Combine results
+        return [...cars, ...newCars];
+    } catch (error) {
+        throw new Error(`Error retrieving cars by owner id: ${error.message}`);
     }
 };
 
