@@ -136,6 +136,7 @@ exports.getUserCars = async (req, res, next)=>{
     }
 }
 exports.newCars = async (req, res, next)=>{
+    const OwnerId = req.user.id;
     try{
         const db = req. app.locals.db;
         // Ensure that req.body.images exists and is an array
@@ -166,6 +167,7 @@ exports.newCars = async (req, res, next)=>{
             images.push(uploadResponse.secure_url); // Push the image URL
         }
         const carData = {
+            owner: OwnerId,
             PhoneNumber : '03008749966',
             make : req.body.make,
             model : req.body.model,
