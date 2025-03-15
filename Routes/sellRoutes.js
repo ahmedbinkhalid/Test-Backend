@@ -37,9 +37,9 @@ router.get('/searchcars/:key', sellController.SearchCars);
 router.get('/usercars', verifyToken, checkAdminOrUserRole, sellController.getUserCars);
 
 // User route to delete car Ad
-router.delete('/deletecar/:id', verifyToken, isUser, sellController.deleteCar);
+router.delete('/deletecar/:id', verifyToken, checkAdminOrUserRole, sellController.deleteCar);
 
 // User route to update Car Ad
-router.post('/updatecar/:id', verifyToken, isUser, sellController.updateCar);
+router.post('/updatecar/:id', verifyToken, checkAdminOrUserRole, sellController.updateCar);
 
 module.exports = router;
