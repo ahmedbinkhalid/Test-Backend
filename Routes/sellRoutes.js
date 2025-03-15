@@ -10,7 +10,7 @@ const path = require('path');
 router.post('/addcars', verifyToken, checkAdminOrUserRole, sellController.addCar);
 
 // Route to get all new cars
-router.get('/newcars', sellController.getNewCars);
+router.get('/newcars', verifyToken, checkAdminOrUserRole,sellController.getNewCars);
 
 // Route to get new car by Id
 router.get('/newcars/:id', sellController.getNewCarById);
