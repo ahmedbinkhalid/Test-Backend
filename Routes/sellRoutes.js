@@ -10,13 +10,13 @@ const path = require('path');
 router.post('/addcars', verifyToken, checkAdminOrUserRole, sellController.addCar);
 
 // Route to get all new cars
-router.get('/newcars', verifyToken, checkAdminOrUserRole,sellController.getNewCars);
+router.get('/newcars',sellController.getNewCars);
 
 // Route to get new car by Id
 router.get('/newcars/:id', sellController.getNewCarById);
 
 // Admin Route to add new car for sale
-router.post('/postcar', sellController.newCars);
+router.post('/postcar',verifyToken, checkAdminOrUserRole ,sellController.newCars);
 
 // Route to get all cars (used and bankreleased)
 router.get('/getcars', sellController.getAllCars);
