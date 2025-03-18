@@ -63,22 +63,30 @@ exports.getCarsByOwnerId = async (db, owner) => {
 
 
 // Get delete cars by carId 
-exports.deleteCar = async (db, carId)=>{
-    try{
-        const collection = db.collection('cars');
-        await collection.deleteOne({_id: new MongoDB.ObjectId(carId)})
-    } catch (error){
-        throw new Error('Error deleteing car: ' + error.message);
+exports.deleteCar = async (db, carId) => {
+    try {
+        const carsCollection = db.collection('cars');
+        const newCarsCollection = db.collection('newCars');
+
+        await carsCollection.deleteOne({ _id: new ObjectId(carId) });
+        await newCarsCollection.deleteOne({ _id: new ObjectId(carId) });
+        
+    } catch (error) {
+        throw new Error('Error deleting car: ' + error.message);
     }
-}
+};
 
 // Update Cars uploaded by users
-exports.updateCar = async (db, carId, updatedData)=>{
-    try{
-        const collection = db.collection('cars');
-        const result = await collection.updateOne({_id: new MongoDB.ObjectId(carId)}, {$set: updatedData });
-        return result;
-    } catch (error){
+exports.updateCar = async (db, carId, updatedData) => {
+    try {
+        const carsCollection = db.collection('cars');
+        const newCarsCollection = db.collection('newCars');
+
+        const result1 = await carsCollection.updateOne({ _id: new ObjectId(carId) }, { $set: updatedData });
+        const result2 = await newCarsCollection.updateOne({ _id: new ObjectId(carId) }, { $set: updatedData });
+
+        return { carsUpdate: result1, newCarsUpdate: result2 };
+    } catch (error) {
         throw new Error('Error updating car: ' + error.message);
     }
 };
